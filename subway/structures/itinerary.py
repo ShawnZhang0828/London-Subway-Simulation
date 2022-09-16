@@ -34,13 +34,12 @@ class Itinerary():
             print the path
         '''
         current = self.s1
-        print(current.id, '-> ', end="")
+        print(current.id, f' - via line{self.connections[0].line.id} - ', end="")
         for i, connection in enumerate(self.connections):
             if connection.s1 == current:
-                print(f'{connection.s2.id} -> ', end="") if i != len(self.connections) - 1 else print(f'{connection.s2.id}', end="")
+                print(f'{connection.s2.id} - via line{self.connections[i+1].line.id} - ', end="") if i != len(self.connections) - 1 else print(f'{connection.s2.id}', end="")
                 current = connection.s2
             else:
-                print(f'{connection.s1.id} -> ', end="") if i != len(self.connections) - 1 else print(f'{connection.s1.id}', end="")
+                print(f'{connection.s1.id} - via line{self.connections[i+1].line.id} - ', end="") if i != len(self.connections) - 1 else print(f'{connection.s1.id}', end="")
                 current = connection.s1
-
-                
+        print()

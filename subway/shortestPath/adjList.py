@@ -1,4 +1,5 @@
 import sys
+from time import time
 
 class AdjList():
     '''
@@ -45,8 +46,9 @@ class AdjList():
         '''
         out_edges = []
         for key, value in self.adj_list[station].items():
-            for line_info in value:
-                out_edges.append((key, line_info[0], line_info[1]))
+            for line, _ in value:
+                # out_edges.append((key, line_info[0], line_info[1]))
+                out_edges.append((key, line))
         return out_edges
         
 

@@ -56,7 +56,7 @@ def loadConnections(path, stations, lines):
             row_elements = [s.strip("") for s in row]
             station1 = next((station for station in stations if station.id == int(row_elements[0])), None)
             station2 = next((station for station in stations if station.id == int(row_elements[1])), None)
-            line = next((line for line in lines if line.id == int(row_elements[3])), None)
+            line = next((line for line in lines if line.id == int(row_elements[2])), None)
             time = int(row_elements[3])
             connections.append(Connection(station1, station2, line, time))
     return connections
