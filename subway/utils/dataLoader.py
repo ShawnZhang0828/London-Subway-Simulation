@@ -4,8 +4,14 @@ from subway.structures.line import Line
 from subway.structures.connection import Connection
 
 class DataLoader():
+    '''
+        DataLoader class loads the data from .csv files
+    '''
     
     def __init__(self, station_path, line_path, connection_path):
+        '''
+            Initialize a class instance
+        '''
         self.station_path = station_path
         self.line_path = line_path
         self.connection_path = connection_path

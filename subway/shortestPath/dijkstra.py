@@ -3,6 +3,7 @@ import heapq
 from subway.shortestPath.shortestPathAlgo import ShortestPathAlgo
 from subway.shortestPath.prioritizedItem import PrioritizedItem
 
+
 class Dijkstra(ShortestPathAlgo):
 
     def findShortestPath(self):
@@ -35,7 +36,7 @@ class Dijkstra(ShortestPathAlgo):
                     neighbor = oe[0]
                     tentative_dist = distTo[station.item] + self.c_list.getTime(station.item, neighbor, oe[1])
                     # if current distance is less than previous distance, update the distTo[neighbour] value
-                    if distTo[neighbor] >= tentative_dist:
+                    if distTo[neighbor] > tentative_dist:
                         distTo[neighbor] = tentative_dist
                         # avoid duplicated items in edgeTo
                         if (station.item, oe[1]) not in edgeTo[neighbor]:
@@ -44,7 +45,5 @@ class Dijkstra(ShortestPathAlgo):
                             heapq.heapreplace(pq, PrioritizedItem(distTo[neighbor], neighbor))
                         else:
                             heapq.heappush(pq, PrioritizedItem(distTo[neighbor], neighbor))
-
         return edgeTo
-
     

@@ -5,7 +5,6 @@ from subway.shortestPath.shortestPathAlgo import ShortestPathAlgo
 from subway.shortestPath.prioritizedItem import PrioritizedItem
 
 
-
 class Astar(ShortestPathAlgo):
 
     @staticmethod
@@ -39,6 +38,10 @@ class Astar(ShortestPathAlgo):
         while pq:
             station = heapq.heappop(pq)
 
+            # if station.item.id == self.end.id:
+            #     path = generatePath(edgeTo, start_s, end_s, connections)
+            #     return path
+
             # relax all edges connected to the current station
             try:
                 out_edges = self.c_list.getOutEdges(station.item)
@@ -53,7 +56,7 @@ class Astar(ShortestPathAlgo):
                     # update distTo, edgeTo, totalCost, and the priority queue
                     if distTo[neighbor] > tentative_dist:
                         distTo[neighbor] = tentative_dist
-                        totalCost[neighbor] = tentative_dist + Astar.h(neighbor, self.end_s)
+                        totalCost[neighbor] = tentative_dist + Astar.h(neighbor, self.end)
                         # avoid duplicated items in edgeTo
                         if (station.item, oe[1]) not in edgeTo[neighbor]:
                             edgeTo[neighbor].append((station.item, oe[1]))
@@ -61,7 +64,6 @@ class Astar(ShortestPathAlgo):
                             heapq.heapreplace(pq, PrioritizedItem(totalCost[neighbor], neighbor))
                         else:
                             heapq.heappush(pq, PrioritizedItem(totalCost[neighbor], neighbor))
-
         return edgeTo
 
 

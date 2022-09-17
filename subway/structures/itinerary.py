@@ -26,7 +26,7 @@ class Itinerary():
         '''
         self.transfer_time = 0
         for i, connection in enumerate(self.connections[:-1]):
-            if connection.line != self.connections:
+            if connection.line != self.connections[i+1].line:
                 self.transfer_time += 1
 
     def printItinerary(self):

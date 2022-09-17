@@ -4,6 +4,9 @@ class ShortestPathAlgo():
     '''
 
     def __init__(self, connection_list, station_list, start_s, end_s):
+        '''
+            Initialize a class instance
+        '''
         self.c_list = connection_list
         self.s_list = station_list
         self.start = start_s
