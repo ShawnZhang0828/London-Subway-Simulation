@@ -42,4 +42,4 @@ class Itinerary():
             else:
                 print(f'{connection.s1.id} - via line{self.connections[i+1].line.id} - ', end="") if i != len(self.connections) - 1 else print(f'{connection.s1.id}', end="")
                 current = connection.s1
-        print()
+        print(f'\nTransfer times: {self.transfer_time}  -  Travel time: {self.travel_time}\n')
