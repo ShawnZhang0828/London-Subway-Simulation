@@ -15,7 +15,7 @@ class Station():
         self.total_lines = total_lines
         self.rail = rail
         self.d_name = display_name if display_name != "NULL" else None
-        self.visited = False
+
 
     def display_info(self):
         '''

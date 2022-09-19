@@ -11,6 +11,8 @@ class PathGenerator():
             Initialize a class instance
         '''
         self.allPath = []
+        self.itineraries = []
+
 
     def dfs(self, edgeTo, current, start, visited, edges, connections):
         '''
@@ -35,7 +37,8 @@ class PathGenerator():
         try:
             edges.pop(0)
         except:
-            print('Last element has been popped.')
+            # print('Last element has been popped.')
+            pass
 
 
     def generatePath(self, edgeTo, start, end, connections):
@@ -48,7 +51,33 @@ class PathGenerator():
         for path in self.allPath:
             itineraries.append(Itinerary(start, end, path))
 
+        self.itineraries = itineraries
+
         return itineraries
+
+
+    def pickTopInitinerary(self):
+        score_list = []
+        for itinerary in self.itineraries:
+            score_list.append(PathGenerator.calcPathScore(itinerary))
+        i = score_list.index(min(score_list))
+        
+        return self.itineraries[i]
+
+
+    def countStations(self):
+        stations_used = set()
+        for itinerary in self.itineraries:
+            stations_used.add(itinerary.s1)
+            stations_used.add(itinerary.s2)
+        return len(stations_used)
+
+
+    @staticmethod
+    def calcPathScore(itinerary):
+        score = itinerary.transfer_time + itinerary.travel_time
+        return score
+        
 
     @staticmethod
     def printAllPath(all_path):

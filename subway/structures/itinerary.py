@@ -20,6 +20,7 @@ class Itinerary():
         '''
         self.travel_time = sum([c.time for c in self.connections])
 
+
     def setTransferT(self):
         '''
             Calculate the transfer time of the path
@@ -28,6 +29,7 @@ class Itinerary():
         for i, connection in enumerate(self.connections[:-1]):
             if connection.line != self.connections[i+1].line:
                 self.transfer_time += 1
+
 
     def printItinerary(self):
         '''

@@ -1,0 +1,46 @@
+Design decisions:
+
+0. Use seperate classes to represent various structures
+- For the purpose of single responsibility, we defined several classes to represent various subway structures like Station, Line, 
+  and Connections. In this way, not only we can "use" Station and Line objects in Connection class to specifically make a reference
+  to the corresponding structure, but also there is no interfere between different structures (i.e., stations, lines, and Connections
+  are independent from each other).
+
+1. Use dictionary to represent the adjacency list
+- We chose to use a 2-dimensional dictionary and each station as the key to define an adjacency list that is beneficial for quickly 
+  obtaining connection path weight and other important information. A list of connection travel time and corresponding lines can be 
+  found in the dictionary's value. This design choice enables us to acquire the path data more quickly and simply by only specifying 
+  the two stations as the "index" during the calculation of distances and passing connection information in algorithm.
+
+2. How to select between less travel time and less transfer time
+- Considering that people may prefer a slightly longer trip with less transfers between lines, we decided to calculate the sum
+  of travel time and transfer time and pick the route with the lowest summation from all feasible paths. Also, since longer travel time
+  often comes with more transfer time, it is fair to simply add them together without leading to significant bias.
+
+3. Use of Prioritized Item
+- When using Priority Queue, we use a Prioritized Item class to solve the problem of encoutering same value of key. Since we only need
+  to compare the distTo data, Prioritized Item helps us to store the same key element in the Priority Queue instead of keep comparing 
+  the value.
+
+4. how astar and dijkstra implement the abstract class (shortestPathAlgo)
+- Due to the similarities between A* and dijkstra algorithms (e.g., usage of priotity queue, requirement of start and end station),
+  we used a abstract class to reduce the complexy and redundency to define the classes that represent the two specific algorithms.
+  This decision also makes adding more algorithms to the system easier, which essentially provides more extendability for our program. 
+
+5. Use class instances rather than station.id and line.id to index dictionaries
+- We used concrete Station and Line objects to index relevant dictionaries like edgeTo and dictTo. Even though using their ids may
+  be a valid option, using objects to index creates a relatively stable reference to dictionares since integer ids could be mixed
+  up with indexes. 
+
+Split work: 
+The group's workload is evenly split, and we typically complete the coding task together. Below is a list indicates how classes implemented 
+individually. One person checks and polishes each area individually, and all programmes' integrity is guaranteed collectively. 
+Wenyu Yin: 
+1. dijkstra
+2. line, connection
+3. metricsHandler
+
+Xiang Zhang:
+1. astar
+2. station, itinerary
+3. dataLoader

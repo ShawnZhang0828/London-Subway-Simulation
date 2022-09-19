@@ -1,6 +1,7 @@
 import sys
 from time import time
 
+
 class AdjList():
     '''
         Adjlist class converts all connections to an adjacency list and 
@@ -12,6 +13,7 @@ class AdjList():
             Initialize a class instance
         '''
         self.setAdjList(connection_list)
+
 
     def setAdjList(self, connection_list):
         '''
