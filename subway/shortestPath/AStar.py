@@ -13,7 +13,7 @@ class Astar(ShortestPathAlgo):
             heuristic function return the distance from current station to the destination
         '''
         # print(math.sqrt(math.pow(current.lat - end.lat, 2) + math.pow(current.lon - end.lon, 2)))
-        return math.sqrt(math.pow(current.lat - end.lat, 2) + math.pow(current.lon - end.lon, 2)) * 50
+        return math.sqrt(math.pow(current.lat - end.lat, 2) + math.pow(current.lon - end.lon, 2)) * 192.127
 
 
     def findShortestPath(self):
@@ -39,12 +39,13 @@ class Astar(ShortestPathAlgo):
         heapq.heappush(pq, PrioritizedItem(totalCost[self.start], self.start))
 
         while pq:
-            # expanding_count += 1
+            expanding_count += 1
             station = heapq.heappop(pq)
 
+            # print(f'exploring {station.item.id}')
+
             if station.item.id == self.end.id:
-                # path = generatePath(edgeTo, start_s, end_s, connections)
-                return edgeTo
+                return edgeTo, expanding_count
 
             # relax all edges connected to the current station
             out_edges = self.c_list.getOutEdges(station.item)
@@ -58,15 +59,10 @@ class Astar(ShortestPathAlgo):
                     distTo[neighbor] = tentative_dist
                     totalCost[neighbor] = tentative_dist + Astar.__h(neighbor, self.end)
                     # avoid duplicated items in edgeTo
-                    if (station.item, oe[1]) not in edgeTo[neighbor]:
-                        edgeTo[neighbor].append((station.item, oe[1]))
+                    edgeTo[neighbor] = [(station.item, oe[1])]
                     if neighbor in [item.item for item in pq]:
                         heapq.heapreplace(pq, PrioritizedItem(totalCost[neighbor], neighbor))
                     else:
                         heapq.heappush(pq, PrioritizedItem(totalCost[neighbor], neighbor))
 
-        string = "I love coding"
-        print(string)
-        # print("edgeTo: ", edgeTo)
-        # print("expanding_cunt: ", expanding_count)
-        return edgeTo#, expanding_count
+        return edgeTo, expanding_count

@@ -12,7 +12,7 @@ Design decisions:
   found in the dictionary's value. This design choice enables us to acquire the path data more quickly and simply by only specifying 
   the two stations as the "index" during the calculation of distances and passing connection information in algorithm.
 
-2. How to select between less travel time and less transfer time
+2. How to select between less travel time and less transfer time for Dijkstra
 - Considering that people may prefer a slightly longer trip with less transfers between lines, we decided to calculate the sum
   of travel time and transfer time and pick the route with the lowest summation from all feasible paths. Also, since longer travel time
   often comes with more transfer time, it is fair to simply add them together without leading to significant bias.
@@ -32,6 +32,18 @@ Design decisions:
   be a valid option, using objects to index creates a relatively stable reference to dictionares since integer ids could be mixed
   up with indexes. 
 
+6. Use the physical distance as the heuristic for A* algorithm
+- For Dijkstra algorithm, we compute all paths that have similar transfer time and travel time and choose the best one out of them
+  by evaluating the total score of transfer time and travel time. On the other hand, for A* algorithm, we decided to use the physical
+  distances as the supporting argument as opposed to transfer time considering that A* is more effecient when it heads straight to the 
+  destination. A* wastes less time exploring stations that will not be used in the final path as well.
+
+6. Use 192.127 as a factor in the heuristic function for A* algorithm
+- The implementation of A* requires a heuristic function that typically calculates the distance from the current station to the final
+  station. This is accomplished by using Pythagoras Theorem to find the exact disdtance from two stations. However, in our priority
+  queue, the stations are ranked by the travel time between them. Therefore, a convertion needs to be performed to make the heuristic function
+  helpful. More details of how this number is obtains can be found above
+
 Split work: 
 The group's workload is evenly split, and we typically complete the coding task together. Below is a list indicates how classes implemented 
 individually. One person checks and polishes each area individually, and all programmes' integrity is guaranteed collectively. 
@@ -44,3 +56,26 @@ Xiang Zhang:
 1. astar
 2. station, itinerary
 3. dataLoader
+
+Analysis of benchmark results
+1. Execution Time
+  The average execution time (running 200 times) of two algorithm are approximately 0.003129ms and 0.001858ms respectively, and Dijkstra 
+  has a slower running time. Two algorithm use similar structures that compute and compare the travel cost of each connection to find the 
+  shortest path, however Dijkstra visit the same node multiple times in order to get all the applicable connections that take account of
+  the transfer times, which slowers the execution time. Conversely, the heuristic function estimates the surplus distance in Astar that 
+  helps the algorithm find the optimized path without visiting unnecessary nodes. Therefore, Astar have a siginificant faster running time
+  than Dijkstra.
+  And considering the change of execution Time depending on the linear distance between start and end station, the graph shows both algorithms'
+  general execution times gradually increase as the distance goes up. Since more possibilities and connections can be involved in the path, 
+  distance ascending increases the number of nodes visited. But Dijkstra still is remarkable slower than Astar, which is almost twice over.
+  The gap between two algorithms' exeuction time becomes larger as the distance increases.
+  
+2. Explored Stations Used Ratio
+- With the help of the heuristic function, A* algorithm goes relatively straight towards the destination rather than exploring almost
+  every station like Djkstra. Therefore, A* algorithm wastes less time on exploring edges that are too far from the current path unlike
+  Dijkstra. Plus, in A* algorithm, the physical distances between stations are considered as a supporting argument for the "shortest" path
+  between two stations, while Dijkstra requires generating all "best" paths so that we can compare the transfer time of paths, which 
+  prevents it from terminating immediately at destination and results in a reduction in explored stations used ratio. 
+
+  The result of this benchmark also provides an explaination of the difference between the execution time of Dijkstra and A*: 
+  Dijkstra spends more time on performing searches on unused stations, while A* uses its resources more effectively.
