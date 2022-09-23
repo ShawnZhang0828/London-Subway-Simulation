@@ -29,11 +29,11 @@ class Dijkstra(ShortestPathAlgo):
             expanding_count += 1
             station = heapq.heappop(pq)
             # relax every edges(lines) adjacent to the current station
-            out_edges = self.c_list.getOutEdges(station.item)
+            out_edges = self.adjList.getOutEdges(station.item)
    
             for oe in out_edges:
                 neighbor = oe[0]
-                tentative_dist = distTo[station.item] + self.c_list.getTime(station.item, neighbor, oe[1])
+                tentative_dist = distTo[station.item] + self.adjList.getTime(station.item, neighbor, oe[1])
                 # if current distance is less than previous distance, update the distTo[neighbour] value
                 if distTo[neighbor] > tentative_dist:
                     distTo[neighbor] = tentative_dist

@@ -48,13 +48,10 @@ class PathGenerator():
         '''
         self.dfs(edgeTo, end, start, [], [], connections)
 
-        itineraries = []
         for path in self.allPath:
-            itineraries.append(Itinerary(start, end, path))
+            self.itineraries.append(Itinerary(start, end, path))
 
-        self.itineraries = itineraries
-
-        return itineraries
+        return self.itineraries
 
 
     def pickTopInitinerary(self):

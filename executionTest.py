@@ -9,7 +9,7 @@ def dijkstra(stations, connections, start, end):
 
     adjList = AdjList(connections)
 
-    dijkstra_algo = Dijkstra(adjList, stations, start, end)
+    dijkstra_algo = Dijkstra(adjList, stations, connections, start, end)
     path_gen = PathGenerator()
     edgeTo, expanding_count = dijkstra_algo.findShortestPath()
 
@@ -27,7 +27,7 @@ def aStar(stations, connections, start, end):
 
     adjList = AdjList(connections)
 
-    astar_algo = Astar(adjList, stations, start, end)
+    astar_algo = Astar(adjList, stations, connections, start, end)
     path_gen = PathGenerator()
     edgeTo, expanding_count = astar_algo.findShortestPath()
 
