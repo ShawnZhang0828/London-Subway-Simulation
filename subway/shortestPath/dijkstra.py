@@ -41,9 +41,11 @@ class Dijkstra(ShortestPathAlgo):
                     if (station.item, oe[1]) not in edgeTo[neighbor]:
                         edgeTo[neighbor].append((station.item, oe[1]))
                     if neighbor in [item.item for item in pq]:
-                        heapq.heapreplace(pq, PrioritizedItem(distTo[neighbor], neighbor))
+                        # heapq.heapreplace(pq, PrioritizedItem(distTo[neighbor], neighbor))
+                        pq = ShortestPathAlgo.updatePQ(pq, neighbor, distTo[neighbor])
                     else:
                         heapq.heappush(pq, PrioritizedItem(distTo[neighbor], neighbor))
         # print(expanding_count)
         return edgeTo, expanding_count
     
+

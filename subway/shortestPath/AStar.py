@@ -61,7 +61,7 @@ class Astar(ShortestPathAlgo):
                     # avoid duplicated items in edgeTo
                     edgeTo[neighbor] = [(station.item, oe[1])]
                     if neighbor in [item.item for item in pq]:
-                        heapq.heapreplace(pq, PrioritizedItem(totalCost[neighbor], neighbor))
+                        pq = ShortestPathAlgo.updatePQ(pq, neighbor, distTo[neighbor])
                     else:
                         heapq.heappush(pq, PrioritizedItem(totalCost[neighbor], neighbor))
 

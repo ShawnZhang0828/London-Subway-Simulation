@@ -1,0 +1,67 @@
+from sys import maxsize
+from itertools import permutations
+
+class TSP():
+    '''
+        TSP class implements the brute-force algorithm to find the most efficient route 
+        for a patrol to visit all required stations.
+        Inputs: adjList - AdjList object that represents the entire graph
+                start   - Station object that represents where the officer starts at
+                patrol_stations - A list of stations objects that describes the stations that the officer needs to visit
+    '''
+
+    def __init__(self, adjList, start, patrol_stations):
+        '''
+            Initialize a class instance
+        '''
+        self.connection_matrix = adjList
+        self.start_s = start
+        self.patrol_s = patrol_stations
+
+        self.min_path = maxsize
+        self.shortest_path = []
+
+
+    # Note the line numbers of connections in this function do not matter since all lines between two stations
+    # take the exact same time.
+    def travellingSalesmanProblem(self):
+        '''
+            Implement the brute-force algorithm (generate all possible paths and calculate cost of each)
+        '''
+        # store all vertex apart from the starting vertex
+        self.patrol_s.remove(self.start_s)
+    
+        # store minimum weight Hamiltonian Cycle
+        next_permutation = permutations(self.patrol_s)
+        for perm in next_permutation:
+            # initialize current Path weight(cost)
+            current_pathweight = 0
+            path_exist = True
+    
+            # compute current path weight
+            currentS = self.start_s
+            for nextS in perm:
+                try:
+                    current_pathweight += self.connection_matrix.getTimeWithoutLine(currentS, nextS)
+                except KeyError as e:
+                    # set path_exist to false if one of the connections does not exist
+                    path_exist = False
+                    break
+                currentS = nextS
+            try:
+                current_pathweight += self.connection_matrix.getTimeWithoutLine(currentS, self.start_s)
+            except KeyError:
+                path_exist = False
+    
+            # update minimum
+            if path_exist == True:
+                if self.min_path != min(self.min_path, current_pathweight):
+                    self.shortest_path = perm
+                self.min_path = min(self.min_path, current_pathweight)
+
+            
+    def printShortestPath(self):
+        print(f'{self.start_s.id} -> ', end='')
+        for station in self.shortest_path:
+            print(f'{station.id} -> ', end='') if self.shortest_path.index(station) != len(self.shortest_path) - 1 else print(f'{station.id} -> {self.start_s.id}')
+        

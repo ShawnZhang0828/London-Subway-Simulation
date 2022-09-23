@@ -1,3 +1,6 @@
+from subway.shortestPath.prioritizedItem import PrioritizedItem
+import heapq
+
 class ShortestPathAlgo():
     '''
         Abstract class for path finding algorithms
@@ -15,6 +18,13 @@ class ShortestPathAlgo():
 
     def findShortestPath():
         pass
+
+    @staticmethod
+    def updatePQ(pq, station, new_priority):
+        prioritizedItem = next((i for i in pq if i.item == station), None)
+        pq.remove(prioritizedItem)
+        heapq.heappush(pq, PrioritizedItem(new_priority, station))
+        return pq
 
 
 

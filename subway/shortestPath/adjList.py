@@ -1,5 +1,4 @@
 import sys
-from time import time
 
 
 class AdjList():
@@ -30,7 +29,7 @@ class AdjList():
                 self.adj_list[connection.s1] = {}
                 self.adj_list[connection.s1][connection.s2] = [(connection.line, connection.time)]
                 
-            # make the adjacency list symmetric (undirected graph)
+            # make the adjacency list symmetric (representing an undirected graph)
             if connection.s2 in self.adj_list:
                 if connection.s1 in self.adj_list[connection.s2]:
                     self.adj_list[connection.s2][connection.s1].append((connection.line, connection.time))
@@ -66,3 +65,13 @@ class AdjList():
             return sys.maxsize
         except:
             return sys.maxsize
+
+
+    def getTimeWithoutLine(self, station1, station2):
+        '''
+            Get the time that is needed to travel from station1 to station2 without given the line
+        '''
+        try:
+            return self.adj_list[station1][station2][0][1]
+        except:
+            raise KeyError
