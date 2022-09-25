@@ -6,43 +6,67 @@ Design decisions:
   to the corresponding structure, but also there is no interfere between different structures (i.e., stations, lines, and Connections
   are independent from each other).
 
+
+Shortest path
+To find the shortest path from the start to the end station, we implement two algorithms Dijkstra and A*.
 1. Use dictionary to represent the adjacency list
-- We chose to use a 2-dimensional dictionary and each station as the key to define an adjacency list that is beneficial for quickly 
+- In order to compare each connection's weight and get connection's information during the algorithms, an adjancency list is implemented.
+  We chose to use a 2-dimensional dictionary and each station object as the key to define this adjacency list that is beneficial for quickly 
   obtaining connection path weight and other important information. A list of connection travel time and corresponding lines can be 
   found in the dictionary's value. This design choice enables us to acquire the path data more quickly and simply by only specifying 
   the two stations as the "index" during the calculation of distances and passing connection information in algorithm.
 
-2. How to select between less travel time and less transfer time for Dijkstra
-- Considering that people may prefer a slightly longer trip with less transfers between lines, we decided to calculate the sum
-  of travel time and transfer time and pick the route with the lowest summation from all feasible paths. Also, since longer travel time
-  often comes with more transfer time, it is fair to simply add them together without leading to significant bias.
-
-3. Use of Prioritized Item
-- When using Priority Queue, we use a Prioritized Item class to solve the problem of encoutering same value of key. Since we only need
-  to compare the distTo data, Prioritized Item helps us to store the same key element in the Priority Queue instead of keep comparing 
-  the value.
-
-4. how astar and dijkstra implement the abstract class (shortestPathAlgo)
+2. how astar and dijkstra implement the abstract class (shortestPathAlgo)
 - Due to the similarities between A* and dijkstra algorithms (e.g., usage of priotity queue, requirement of start and end station),
   we used a abstract class to reduce the complexy and redundency to define the classes that represent the two specific algorithms.
   This decision also makes adding more algorithms to the system easier, which essentially provides more extendability for our program. 
 
-5. Use class instances rather than station.id and line.id to index dictionaries
-- We used concrete Station and Line objects to index relevant dictionaries like edgeTo and dictTo. Even though using their ids may
-  be a valid option, using objects to index creates a relatively stable reference to dictionares since integer ids could be mixed
-  up with indexes. 
+
+3. Use class instances rather than station.id/line.id to index dictionaries for edgeTo and distTo
+- We use two dictionaries edgeTo and distTo (as well as extra totalCost in Astar) to store the station and corresponding useful information.
+  To index relevant dictionaries, we chose to use concrete Station and Line objects. Even though using their ids may be a valid option, 
+  using objects to index creates a relatively stable reference to dictionares since integer ids could be mixed up with indexes. 
+
+4. Use of Prioritized Item
+- To always find the shortest path in the present, Priority Queues help us sort the visited path based on the value in distTo{} and cover more
+  of the whole graph with the lowest-cost path possible. When using Priority Queue, we use a Prioritized Item class to solve the problem of 
+  encoutering same value of key. Since we only need to compare the distTo{} data, Prioritized Item helps us to store the same key element in 
+  the Priority Queue instead of keep comparing the value.
+
+
+5. How to select between less travel time and less transfer time for Dijkstra
+- The unmodified version of Dijkstra uses "weight" of connections as its top consideration, however, considering that people may prefer a 
+  slightly longer trip with less transfers between lines, we defined the values in edgeTo{} as a list that stores several "closest" connections
+  to the station and find all paths from start to end within those connections using DFS. To choose the optimal solution from all paths,
+  we decided to calculate the sum of travel time and transfer time and pick the route with the lowest summation from all feasible paths. 
+  Also, since longer travel time often comes with more transfer time, it is fair to simply add them together without leading to significant bias.
 
 6. Use the physical distance as the heuristic for A* algorithm
 - For Dijkstra algorithm, we compute all paths that have similar transfer time and travel time and choose the best one out of them
   by evaluating the total score of transfer time and travel time. On the other hand, for A* algorithm, we decided to use the physical
   distances as the supporting argument as opposed to transfer time considering that A* is more effecient when it heads straight to the 
-  destination. A* wastes less time exploring stations that will not be used in the final path as well.
+  destination. Hence, taking transfer time into account is unnecessary. A* wastes less time exploring stations that will not be used 
+  in the final path as well.
 
-6. Use 192.127 as a factor in the heuristic function for A* algorithm
+7. Use 192.127 as a factor in the heuristic function for A* algorithm
 - The implementation of A* requires a heuristic function that typically calculates the distance from the current station to the final
   station. This is accomplished by using Pythagoras Theorem to find the exact disdtance from two stations. However, in our priority
   queue, the stations are ranked by the travel time between them. Therefore, a convertion needs to be performed to make the heuristic function
   helpful. More details of how this number is obtains can be found above
+
+SOLID PRINCIPLES:
+single responsibility:
+  - Each class in our library has their own job. We create a new class "path generator" to obtain and print the path we found through different
+    algorithms, separating the path generating from the algorithm itself. It reduced duplicaton of producing same code in both algorithms, and
+    makes the design more maintainable
+open-closed principle:
+  - When designing the creation of two shortest path algorithm, we apply the strategy pattern that each algorithm is extended from an abstract 
+    shortestPathAlgo class, which is easy to modify and update the design with new algorithms. It encapsulates the different strategies and can
+    easily switch and use between these algorithm depending on some specific conditions.
+dependency inversion:
+  - Dependency inversion principle is mostly enhanced in our shortestPathAlgo abstract class, specifically by the new function runAlgorithm() function where
+    we run A* or Dijkstra algorithm without specify which one we are using. As a result, whatever object that calls the runAlgorithm() will execute 
+    a shortest path finding algorithm based on the object itself instead of how the algorithm is implemented, and the dependency chain is inversed.
 
 Split work: 
 The group's workload is evenly split, and we typically complete the coding task together. Below is a list indicates how classes implemented 
@@ -79,3 +103,77 @@ Analysis of benchmark results
 
   The result of this benchmark also provides an explaination of the difference between the execution time of Dijkstra and A*: 
   Dijkstra spends more time on performing searches on unused stations, while A* uses its resources more effectively.
+
+
+### Design choices
+
+## TSP
+1. Use brute-force algorithm rather than dynamic programming
+   Brute-force is more intuitive. Although it is less efficient than dynamic programming, it is more reliable that it considers all
+   the possibilities. In terms of the drawback in runtime of this algorithm, refer to the TSP section in Analysis of Algorithm Performances.
+
+2. Do not take the line number into account when generating the route
+   We assume that all direct connections between two stations are the same regardless of the line number, so taking different lines
+   in this route does not make a difference.
+
+## Find Islands
+1. use dictionaries to represent the graph
+   We use dictionaries to store the zone_graph and island_graph since it is easy to access the data using index. For zone_graph, we
+   define the zone number as the key and the corresponding value will be a list of stations that are in this zone. For island_graph, 
+   the key is the zone number and the value is the list of islands in that zone (each island is a sublist with stations). Using dictionaries
+   makes the implementation more intelligible than using list because the zone number starts from 1 but the index of list starts from 0. 
+
+## Find Connection Between Islands
+1. use astar instead of dijkstra to find the shortest path
+   When user provides two stations, the algorithm will print out whether they are in the same zone but different island, and find
+   the shortest connection between these two stations' islands with the different zone they passed. We decided to run Astar algorithm, 
+   while considering each station in station_1's island as start point and each station in station_2's island as end point. Dijkstra 
+   includes the feature that takes transfer time into account. Since we only need to find the shortest path based on the travel time 
+   and physical distance, Astar is more suitable than Dijkstra. And in the meantime, astar's execution time is observably faster 
+   than Dijkstra.
+
+2. Accept two stations as the input
+   Rather than accepting two stations as the input and identify the islands they belong to, we could index the islands and let the user
+   input the island directly. However, this approach has several drawbacks. First of all, indexing an island can be confusing as there is 
+   no distinguishable characteristics between two islands. It is also possible that the order of which the islands are stored can be disrupted,
+   while inputting stations offers us a stable reference to the islands. Also, asking for island inputs is not quite user-friendly as users 
+   need a full list of stations. On the other hand, users can give two stations easily, and we can obtain the islands they are in with little
+   effort.
+
+3. Give the output using print instead of return
+   We can customized our print function to satisfy our requirements, while returning the path requires additional data processing. It is also
+   more intuitive to print out the full path.
+
+### Analysis of Algorithm Performances
+
+## TSP
+- The complexity of the algorithm is O(N!×N) since it generates every permutations of the given stations, checks if the permutation forms a 
+  Hamilton cycle, and updates the shortest_dist and shortest_path if a better path is found. In the worst case, there is a connection between 
+  every two stations, then checking each permutation takes N times as it checks all stations. As a result, N*N! checks will be performed to 
+  examine the permutations.
+- Clearly an algorithm with complexity of O(N!×N) is not quite efficient, but due to the situation we are given that the patrol officer are 
+  travelling among a series of stations to ensure security and offer assistances, it is reasonable to assume that the officer will visit less 
+  than 10 stations, which only leads to a slight delay in our program. Furthermore, this brute-force algorithm will not always run at O(N!×N) 
+  as the lack of connections between many stations, but it will always provide us with the most efficient route reliably as it considers every 
+  possibility.
+- In fact, running this brute-force algorithm on a set of 9 stations only takes 0.05s, which we considered acceptable according to the  
+
+## Find Islands
+- The complexity of the algorithm is O(V) and V is the length of the stations list (number of nodes in graph), since we use the dictionaries to
+  represent the graph that visiting one node takes O(1) and it runs DFS on each node (station) of the zone_graph. There is no worst case because 
+  every single node will be visited in the for loop or in the DFS recursion exactly once in order to find all connected island, while the visited 
+  node will be skipped. Therefore, there is no additional complexity and the time complexity of island finding is linear that is O(V).
+- To find the island of provided London Subway Stations graph, the runtime of this algorithm only takes 0.002995s for 300+ stations, which can be 
+  considered as an efficient result
+
+## Find Connection Between Islands
+- To find connections between two islands, first we need to look for which islands the two stations belong to. To accomplish this, we use 
+  station.zone as an index to access the island_graph dictionary and conduct a search in all islands in that zone. Then, we use a nested 
+  for loop to iterate through every pair of stations within the two islands and run A* on them to find the shortest path between them. 
+  Assuming both stations belong to islands that contain N stations, looking for islands will have a time complexity of O(N). Note we use
+  the physical distances between two stations as the A* heuristic and two stations in the same zone should be close to each other, A* should
+  produce an output relatively fast in this case. Nevertheless, we need to run N×N times of A*, therefore, the time complexity is at least O(N×N). 
+  The final algorithm will be AT LEAST O(N×N) given O(N) in finding islands and O(N×N) in A*'s.
+- Due to the close distance between two stations, A* should offer us an answer in a relatively short amount of time. As a matter of fact, running the 
+  algorithm takes 0.092s for two islands with size of 14 and 8, which we considered acceptable since our program will be utilized at a subway system
+  rather than in a scientific circumstance.

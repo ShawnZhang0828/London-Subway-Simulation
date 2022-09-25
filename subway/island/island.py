@@ -1,6 +1,5 @@
 import sys
 from subway.shortestPath.aStar import Astar
-import zoneinfo
 
 
 class Island:
@@ -48,7 +47,7 @@ class Island:
             for station in stations:
                 island = []
                 if station not in visited:
-                    island, visited = self.DFS(island, station, visited, zone)
+                    island = self.DFS(island, station, visited, zone)
                     self.island_graph[zone].append(island)
 
 
@@ -62,9 +61,9 @@ class Island:
         for oe in self.adjList.getOutEdges(current):
             if oe[0] in self.zone_graph[zone]:
                 if oe[0] not in visited:
-                    temp, visited = self.DFS(temp, oe[0], visited, zone)
+                    temp = self.DFS(temp, oe[0], visited, zone)
         
-        return temp, visited
+        return temp
 
 
     def printIsland(self):

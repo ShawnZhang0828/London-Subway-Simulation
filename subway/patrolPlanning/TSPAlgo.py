@@ -61,6 +61,9 @@ class TSP():
 
             
     def printShortestPath(self):
+        '''
+            Print the solution to the patrolling problem
+        '''
         print(f'{self.start_s.id} -> ', end='')
         for station in self.shortest_path:
             print(f'{station.id} -> ', end='') if self.shortest_path.index(station) != len(self.shortest_path) - 1 else print(f'{station.id} -> {self.start_s.id}')
