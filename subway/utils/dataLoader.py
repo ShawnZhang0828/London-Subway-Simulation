@@ -1,7 +1,12 @@
 import csv
-from subway.structures.station import Station
-from subway.structures.line import Line
-from subway.structures.connection import Connection
+import sys
+
+sys.path.append(sys.path[0] + '\\subway\\structures')
+
+from station import Station
+from line import Line
+from connection import Connection
+
 
 class DataLoader():
     '''
@@ -12,9 +17,9 @@ class DataLoader():
         '''
             Initialize a class instance
         '''
-        self.station_path = station_path
-        self.line_path = line_path
-        self.connection_path = connection_path
+        self.station_path = sys.path[0].strip("\\testcases") + "\\" + station_path
+        self.line_path = sys.path[0].strip("\\testcases") + "\\" + line_path
+        self.connection_path = sys.path[0].strip("\\testcases") + "\\" + connection_path
 
 
     def loadStation(self):

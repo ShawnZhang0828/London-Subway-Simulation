@@ -1,8 +1,10 @@
-import sys
 import math
 import heapq
-from subway.shortestPath.shortestPathAlgo import ShortestPathAlgo
-from subway.shortestPath.prioritizedItem import PrioritizedItem
+import sys
+sys.path.append(sys.path[0] + '\\subway\\shortestPath')
+
+from shortestPathAlgo import ShortestPathAlgo
+from prioritizedItem import PrioritizedItem
 
 
 class Astar(ShortestPathAlgo):

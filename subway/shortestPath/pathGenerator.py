@@ -1,5 +1,8 @@
-from pathlib import Path
-from subway.structures.itinerary import Itinerary
+import sys
+sys.path.append(sys.path[0] + '\\subway\\structures')
+
+from itinerary import Itinerary
+
 
 class PathGenerator():
     '''

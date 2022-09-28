@@ -13,6 +13,7 @@ class Connection():
         self.line = line
         self.time = time
 
+
     def display_info(self):
         '''
             print all information about a connection

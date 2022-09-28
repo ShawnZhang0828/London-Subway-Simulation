@@ -1,6 +1,10 @@
-from subway.shortestPath.prioritizedItem import PrioritizedItem
-from subway.shortestPath.pathGenerator import PathGenerator
 import heapq
+import sys
+sys.path.append(sys.path[0] + '\\subway\\shortestPath')
+
+from prioritizedItem import PrioritizedItem
+from pathGenerator import PathGenerator
+
 
 class ShortestPathAlgo():
     '''

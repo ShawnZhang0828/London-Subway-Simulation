@@ -1,5 +1,8 @@
+import sys
+sys.path.append(sys.path[0] + '\\subway\\structures')
+
 from dataclasses import dataclass, field
-from subway.structures.station import Station 
+from station import Station 
 
 
 @dataclass(order=True)

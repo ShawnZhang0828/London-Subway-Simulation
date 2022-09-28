@@ -1,12 +1,18 @@
 import random
 import math
 import time
+import sys
+sys.path.append(sys.path[0] + '\\subway\\shortestPath')
+sys.path.append(sys.path[0] + '\\subway\\utils')
+
+from adjList import AdjList
+from dijkstra import Dijkstra
+from aStar import Astar
+from pathGenerator import PathGenerator
+from dataLoader import DataLoader
+
 
 def dijkstra(stations, connections, start, end):
-    from subway.shortestPath.adjList import AdjList
-    from subway.shortestPath.dijkstra import Dijkstra
-    from subway.shortestPath.pathGenerator import PathGenerator
-
     adjList = AdjList(connections)
 
     dijkstra_algo = Dijkstra(adjList, stations, connections, start, end)
@@ -21,10 +27,6 @@ def dijkstra(stations, connections, start, end):
 
 
 def aStar(stations, connections, start, end):
-    from subway.shortestPath.adjList import AdjList
-    from subway.shortestPath.aStar import Astar
-    from subway.shortestPath.pathGenerator import PathGenerator
-
     adjList = AdjList(connections)
 
     astar_algo = Astar(adjList, stations, connections, start, end)
@@ -51,8 +53,6 @@ def main():
     # end_id = random.choice([i for i in range(0, 100) if i != start_id])
     # start = stations[start_id]
     # end = stations[end_id]
-    
-    from subway.utils.dataLoader import DataLoader
 
     data_loader = DataLoader('_dataset/london.stations.csv', '_dataset/london.lines.csv', '_dataset/london.connections.csv')
 

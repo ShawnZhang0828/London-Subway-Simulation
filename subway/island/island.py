@@ -1,5 +1,7 @@
 import sys
-from subway.shortestPath.aStar import Astar
+# sys.path.append(sys.path[0] + '\\subway\\shortestPath')
+
+from aStar import Astar
 
 
 class Island:
@@ -58,6 +60,7 @@ class Island:
         visited.append(current)
         temp.append(current)
 
+        # Run DFS at every station
         for oe in self.adjList.getOutEdges(current):
             if oe[0] in self.zone_graph[zone]:
                 if oe[0] not in visited:
@@ -72,8 +75,9 @@ class Island:
         '''
         for zone, islands in self.island_graph.items():
             print(f'\nIn zone{zone}, the islands are the following: ')
-            for island in islands:
-                print('------')
+            for i, island in enumerate(islands):
+                print('--------------------------')
+                print(f"Island{i+1} contains station(s): ", end="")
                 for station in island:
                     print(station.id, end=", ") if island.index(station) != len(island)-1 else print(station.id)
 
@@ -105,13 +109,16 @@ class Island:
         shortest_dist = sys.maxsize
         for station1 in islands1:
             for station2 in islands2:
+                # Run A* at every two stations to find the shortest path between the two islands
                 astar_algo = Astar(self.adjList, self.s_list, self.c_list, station1, station2)
                 paths = astar_algo.runAlgorithm()
+                # Update shortest distance and shortest path
                 if paths[0].travel_time < shortest_dist:
                     shortest_connection = paths[0]
                     shortest_dist = paths[0].travel_time    
         print()     
         shortest_connection.printItinerary(extra_info=False, zone_info=True)
+        return shortest_connection
 
 
     def findIslandConnection(self, *args):
@@ -120,9 +127,10 @@ class Island:
             In the case of four islands (s1.zone = s2.zone = n+0.5 where n is an integer), the function only outputs connections
             between islands in the same zone.
         '''
-        self.__findIslandConnectionUtils(args[0], args[1])
-        if len(args) > 2:
-            self.__findIslandConnectionUtils(args[2], args[3])
+        if len(args) <= 2:
+            return self.__findIslandConnectionUtils(args[0], args[1])
+        else:
+            return (self.__findIslandConnectionUtils(args[0], args[1]), self.__findIslandConnectionUtils(args[2], args[3]))
 
 
     def findIslandInZone(self, s1, s2):
@@ -139,14 +147,14 @@ class Island:
             return -1
 
         # Example: s1.zone = 1, s2.zone = 1.5
-        if s1.zone % 1 == 0 and s2.zone % 1 == 0:
+        if s1.zone % 1 == 0 and s2.zone % 1 != 0:
             island1 = self.__findAllIsland(s1)[0]
             island2 = self.__findAllIsland(s2)[1] if s2.zone - 0.5 == s1.zone else self.__findAllIsland(s2)[0]
             if s1 in island2 or s2 in island1:
                 print(f'Station{s1.id} and Station{s2.id} are in the same island.')
                 return -1
             print(f'Find connections between islands in zone{int(s1.zone)}.\nStation{s1.id} is in island: {[s.id for s in island1]}\nStation{s2.id} is in island: {[s.id for s in island2]}')
-            self.findIslandConnection(island1, island2)
+            return self.findIslandConnection(island1, island2)
 
         # Example: s1.zone = 1.5, s2.zone = 1
         elif s1.zone % 1 != 0 and s2.zone % 1 == 0:
@@ -156,7 +164,7 @@ class Island:
                 print(f'Station{s1.id} and Station{s2.id} are in the same island.')
                 return -1
             print(f'Find connections between islands in zone{int(s2.zone)}.\nStation{s1.id} is in island: {[s.id for s in island1]}\nStation{s2.id} is in island: {[s.id for s in island2]}')
-            self.findIslandConnection(island1, island2)
+            return self.findIslandConnection(island1, island2)
 
         # Example: s1.zone = 1, s2.zone = 1
         elif s1.zone % 1 == 0 and s2.zone % 1 == 0:
@@ -165,7 +173,7 @@ class Island:
                 print(f'Station{s1.id} and Station{s2.id} are in the same island.')
                 return -1
             print(f'Find connections between islands in zone{int(s1.zone)}.\nStation{s1.id} is in island: {[s.id for s in island1]}\nStation{s2.id} is in island: {[s.id for s in island2]}')
-            self.findIslandConnection(island1, island2)
+            return self.findIslandConnection(island1, island2)
             
         # if both stations' zones are float (1.5, 2.5, 3.5, et)
         else: 
@@ -188,9 +196,9 @@ class Island:
                     self.findIslandConnection(island3, island4)
                 elif s1 in island4 or s2 in island3:
                     print(f'Station{s1.id} and Station{s2.id} are in the same island.')
-                    self.findIslandConnection(island1, island2)
+                    return self.findIslandConnection(island1, island2)
                 else:
-                    self.findIslandConnection(island1, island2, island3, island4)
+                    return self.findIslandConnection(island1, island2, island3, island4)
 
             else:
                 # s1.zone > s2.zone
@@ -208,5 +216,5 @@ class Island:
                         print(f'Station{s1.id} and Station{s2.id} are in the same island.')
                         return -1
                     print(f'Find connections between islands in zone{int(s1.zone+0.5)}.\nStation{s1.id} is in island: {[s.id for s in island1]}\nStation{s2.id} is in island: {[s.id for s in island2]}')
-                self.findIslandConnection(island1, island2)
+                return self.findIslandConnection(island1, island2)
             

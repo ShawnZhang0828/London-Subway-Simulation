@@ -177,3 +177,33 @@ Analysis of benchmark results
 - Due to the close distance between two stations, A* should offer us an answer in a relatively short amount of time. As a matter of fact, running the 
   algorithm takes 0.092s for two islands with size of 14 and 8, which we considered acceptable since our program will be utilized at a subway system
   rather than in a scientific circumstance.
+
+
+
+  Self Reflection
+  - Have you done a similar kind of work in the past?
+  WY: No, I haven't done any graph implementation and coded the related algorithms, especially for Astar and the traveling salesman problem algorithm 
+      that I haven't heard of. However, I've learned graph data structure, Dijkstra, and connected components by understanding the concepts behind the 
+      algorithm.
+  XZ: Not really. Even though I had experience with Python programming and object-oriented programming, I had never designed and implemented such a graph 
+      system. Several algorithms like A\* and TSP solution are also new to me. I wasn't very familiar with benchmarking and measuing KPIs before as well.
+  - How do you feel about this piece of work? What parts do you particularly like? Dislike? Why?
+  WY: As engineering students, this work really helps us get more coding and design experience since it challenges us to put what we've learned into practice. 
+      But there are too many tasks that need to be completed in a single week. It takes a lot of times to complete each stage because this is the first time 
+      we try to complete this kind of task.
+  XZ: This project taught me a lot in terms of polishing my code and making decisions based on the resources provided and client requirements. I was highly 
+      engaged while accomplishing weekly goals and summarizing our work in the report. It would be a nicer experience if we are given more time to refine our 
+      work and make wiser decisions. 
+  - Outward What is the one thing you particularly want people to notice about your work?
+  WY: The data structures and ways of implementing algorithms we used are intuitive and easy to understand. Our way of structuring classes and functions also 
+      enhanced SOLID principles. It was also noteworthy that we documented almost all decisions we made, including why we choose certain data structures, how We
+      implemented some of the algorithms, etc.
+  XZ: We created some data structures like PrioritizedItem to satisfy our requirements, and these data structures can also be helpful in other applications. We also
+      created private methods in some classes to reduce the amount of duplicate code in those classes, which shortens our functions and improve the readability
+      of our code depite of slightly increase in the project's complexity.
+
+  - Forward What would you change if you had the chance to do this project over again?
+  WY: The next time, I may try to design the data structures and algorithm fully before I actually implement it. Since we are unfamiliar with this kind of 
+      project, we try to code it and output what it looks like whenever we have some ideas. And there have many alterations in the process.
+  XZ: I will devote more time in the preparation stage of the project, including making flow charts, figuring out client requirements, and constructing the 
+      UML diagram. Another improvement will be to push the local repository more often to keep the design process documented.

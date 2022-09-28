@@ -1,18 +1,24 @@
 import pytest
-from subway.structures.connection import Connection
-from subway.structures.line import Line
-from subway.structures.station import Station
-from subway.utils.dataLoader import DataLoader
-from subway.utils.metricsHandler import MetricsHandler
+import sys
 
-from subway.shortestPath.adjList import AdjList
-from subway.shortestPath.dijkstra import Dijkstra
-from subway.shortestPath.aStar import Astar
-from subway.shortestPath.pathGenerator import PathGenerator
+path = sys.path[0].strip("\\testcases")
+
+sys.path.append(path + '\\subway\\utils')
+sys.path.append(path + '\\subway\\shortestPath')
+sys.path.append(path + '\\subway\\structures')
+
+from dataLoader import DataLoader
+from metricsHandler import MetricsHandler
+from adjList import AdjList
+from pathGenerator import PathGenerator
+from dijkstra import Dijkstra
+from aStar import Astar
 
 
-file_paths_1 = ['_dataset/london.stations.csv', '_dataset/london.lines.csv', '_dataset/london.connections.csv']
-file_paths_2 = ['_dataset/london.stations - Test.csv', '_dataset/london.lines - Test.csv', '_dataset/london.connections - Test.csv']
+'''Two test graphs: London Subway as case 1 and Self-defined graph as case 2'''
+
+file_paths_1 = ['_dataset\\london.stations.csv', '_dataset\\london.lines.csv', '_dataset\\london.connections.csv']
+file_paths_2 = ['_dataset\\london.stations - Test.csv', '_dataset\\london.lines - Test.csv', '_dataset\\london.connections - Test.csv']
 
 data_loader_1 = DataLoader(file_paths_1[0], file_paths_1[1], file_paths_1[2])
 data_loader_2 = DataLoader(file_paths_2[0], file_paths_2[1], file_paths_2[2])
@@ -20,13 +26,17 @@ data_loader_2 = DataLoader(file_paths_2[0], file_paths_2[1], file_paths_2[2])
 stations_1 = data_loader_1.loadStation()
 lines_1 = data_loader_1.loadLine()
 connections_1 = data_loader_1.loadConnections(stations_1, lines_1)
+adjList_1 = AdjList(connections_1)
 
 stations_2 = data_loader_2.loadStation()
 lines_2 = data_loader_2.loadLine()
 connections_2 = data_loader_2.loadConnections(stations_2, lines_2)
+adjList_2 = AdjList(connections_2)
 
-def test_loadData_2():
-    global stations_1, lines_1, connections_1
+def test_loadData():
+    '''Using self-defined test cases'''
+
+    # global stations_1, lines_1, connections_1
     
     data_loader = DataLoader(file_paths_2[0], file_paths_2[1], file_paths_2[2])
 
@@ -38,7 +48,8 @@ def test_loadData_2():
     assert [connection.time for connection in connections] == [3, 2, 3, 1, 1, 3, 1, 3, 2, 4, 1, 2, 1, 4, 3, 2, 3, 6, 4, 3]
 
 
-def test_metrics_2():
+def test_metrics():
+    '''Using self-defined test cases'''
     metrics_handler = MetricsHandler(stations_2, lines_2, connections_2)
 
     num_nodes = metrics_handler.computeNodeNum()
@@ -50,16 +61,17 @@ def test_metrics_2():
 
 
 def test_dijkstra_2():
-    global connections_2, stations_2, lines_2
-    adjList = AdjList(connections_2)
+    #global connections_2, stations_2, lines_2
+    # adjList = AdjList(connections_2)
     start = stations_2[3]
     end = stations_2[7]
 
-    dijkstra_algo = Dijkstra(adjList, stations_2, start, end)
+    dijkstra_algo = Dijkstra(adjList_2, stations_2, connections_2, start, end)
     path_gen = PathGenerator()
     edgeTo, _ = dijkstra_algo.findShortestPath()
+    _ = path_gen.generatePath(edgeTo, start, end, connections_2)
 
-    paths = path_gen.generatePath(edgeTo, start, end, connections_2)
+    # paths = dijkstra_algo.runAlgorithm()
 
     stations_in_path = set()
     for c in path_gen.pickTopInitinerary().connections:
@@ -70,36 +82,36 @@ def test_dijkstra_2():
 
 
 def test_astar_2():
-    global connections_2, stations_2, lines_2
-    adjList = AdjList(connections_2)
+    #global connections_2, stations_2, lines_2
+    #adjList = AdjList(connections_2)
     start = stations_2[3]
     end = stations_2[7]
 
-    astar_algo = Astar(adjList, stations_2, start, end)
-    path_gen = PathGenerator()
-    edgeTo, _ = astar_algo.findShortestPath()
+    astar_algo = Astar(adjList_2, stations_2, connections_2, start, end)
+    #path_gen = PathGenerator()
+    #edgeTo, _ = astar_algo.findShortestPath()
 
-    paths = path_gen.generatePath(edgeTo, start, end, connections_2)
+    paths = astar_algo.runAlgorithm()
 
     stations_in_path = set()
-    for c in path_gen.pickTopInitinerary().connections:
+
+    for c in paths[0].connections:
         stations_in_path.add(c.s1.id)
         stations_in_path.add(c.s2.id)
 
-    assert stations_in_path == {4, 3, 9, 2, 8}
+    assert stations_in_path == {1, 3, 4, 8}
 
 
 def test_dijkstra_1():
-    global connections_1, stations_1, lines_1
-    adjList = AdjList(connections_1)
+    #global connections_1, stations_1, lines_1
+    #adjList = AdjList(connections_1)
     start = stations_1[171]
     end = stations_1[219]
 
-    dijkstra_algo = Dijkstra(adjList, stations_1, start, end)
+    dijkstra_algo = Dijkstra(adjList_1, stations_1, connections_1, start, end)
     path_gen = PathGenerator()
     edgeTo, _ = dijkstra_algo.findShortestPath()
-
-    paths = path_gen.generatePath(edgeTo, start, end, connections_1)
+    _ = path_gen.generatePath(edgeTo, start, end, connections_1)
 
     stations_in_path = set()
     for c in path_gen.pickTopInitinerary().connections:
@@ -110,19 +122,17 @@ def test_dijkstra_1():
 
 
 def test_astar_1():
-    global connections_1, stations_1, lines_1
-    adjList = AdjList(connections_1)
+    #global connections_1, stations_1, lines_1
+    #adjList = AdjList(connections_1)
     start = stations_1[171]
     end = stations_1[219]
 
-    astar_algo = Astar(adjList, stations_1, start, end)
-    path_gen = PathGenerator()
-    edgeTo, _ = astar_algo.findShortestPath()
+    astar_algo = Astar(adjList_1, stations_1, connections_1, start, end)
 
-    paths = path_gen.generatePath(edgeTo, start, end, connections_1)
+    paths = astar_algo.runAlgorithm()
 
     stations_in_path = set()
-    for c in path_gen.pickTopInitinerary().connections:
+    for c in paths[0].connections:
         stations_in_path.add(c.s1.id)
         stations_in_path.add(c.s2.id)
 

@@ -1,6 +1,5 @@
 import sys
 
-
 class AdjList():
     '''
         Adjlist class converts all connections to an adjacency list and 
