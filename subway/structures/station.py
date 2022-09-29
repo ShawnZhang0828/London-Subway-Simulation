@@ -3,7 +3,8 @@ class Station():
         Station class is used to represent a staion in the subway system
     '''
 
-    def __init__(self, id, lat, lon, name, display_name, zone, total_lines, rail):
+    def __init__(self, id, lat, lon, name, display_name,
+                 zone, total_lines, rail):
         '''
             Initialize a class instance
         '''
@@ -15,7 +16,6 @@ class Station():
         self.total_lines = total_lines
         self.rail = rail
         self.d_name = display_name if display_name != "NULL" else None
-
 
     def display_info(self):
         '''

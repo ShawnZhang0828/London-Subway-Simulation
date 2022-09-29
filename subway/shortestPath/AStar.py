@@ -1,8 +1,6 @@
 import math
 import heapq
 import sys
-sys.path.append(sys.path[0] + '\\subway\\shortestPath')
-
 from shortestPathAlgo import ShortestPathAlgo
 from prioritizedItem import PrioritizedItem
 
@@ -12,15 +10,16 @@ class Astar(ShortestPathAlgo):
     @staticmethod
     def __h(current, end):
         '''
-            heuristic function return the distance from current station to the destination
+            heuristic function return the distance from current
+            station to the destination
         '''
-        # print(math.sqrt(math.pow(current.lat - end.lat, 2) + math.pow(current.lon - end.lon, 2)))
-        return math.sqrt(math.pow(current.lat - end.lat, 2) + math.pow(current.lon - end.lon, 2)) * 192.127
-
+        return math.sqrt(math.pow(current.lat - end.lat, 2) +
+                         math.pow(current.lon - end.lon, 2)) * 192.127
 
     def findShortestPath(self):
         '''
-            Implementation of the A* algorithm with the help of the heuristic function defined above
+            Implementation of the A* algorithm with the help of
+            the heuristic function defined above
         '''
         edgeTo = {}
         distTo = {}
@@ -54,17 +53,22 @@ class Astar(ShortestPathAlgo):
 
             for oe in out_edges:
                 neighbor = oe[0]
-                tentative_dist = distTo[station.item] + self.adjList.getTime(station.item, neighbor, oe[1])
-                # if the new distance to neighbor is shorter than the distance stored before, 
-                # update distTo, edgeTo, totalCost, and the priority queue
+                time = self.adjList.getTime(station.item, neighbor, oe[1])
+                tentative_dist = distTo[station.item] + time
+                # if the new distance to neighbor is shorter than the distance
+                # stored before, update distTo, edgeTo, totalCost, and the
+                # priority queue
                 if distTo[neighbor] > tentative_dist:
                     distTo[neighbor] = tentative_dist
-                    totalCost[neighbor] = tentative_dist + Astar.__h(neighbor, self.end)
+                    h_result = Astar.__h(neighbor, self.end)
+                    totalCost[neighbor] = tentative_dist + h_result
                     # avoid duplicated items in edgeTo
                     edgeTo[neighbor] = [(station.item, oe[1])]
                     if neighbor in [item.item for item in pq]:
-                        pq = ShortestPathAlgo.updatePQ(pq, neighbor, distTo[neighbor])
+                        pq = ShortestPathAlgo.updatePQ(pq, neighbor,
+                                                       distTo[neighbor])
                     else:
-                        heapq.heappush(pq, PrioritizedItem(totalCost[neighbor], neighbor))
+                        heapq.heappush(pq, PrioritizedItem(totalCost[neighbor],
+                                                           neighbor))
 
         return edgeTo, expanding_count

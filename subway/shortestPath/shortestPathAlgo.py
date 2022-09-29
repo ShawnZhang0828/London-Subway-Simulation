@@ -1,7 +1,4 @@
 import heapq
-import sys
-sys.path.append(sys.path[0] + '\\subway\\shortestPath')
-
 from prioritizedItem import PrioritizedItem
 from pathGenerator import PathGenerator
 
@@ -11,20 +8,18 @@ class ShortestPathAlgo():
         Abstract class for path finding algorithms
     '''
 
-    def __init__(self, adj_list, station_list, connection_list, start_s, end_s):
+    def __init__(self, adj_list, s_list, c_list, start_s, end_s):
         '''
             Initialize a class instance
         '''
         self.adjList = adj_list
-        self.s_list = station_list
-        self.c_list = connection_list
+        self.s_list = s_list
+        self.c_list = c_list
         self.start = start_s
         self.end = end_s
 
-
     def findShortestPath():
         pass
-
 
     def runAlgorithm(self):
         '''
@@ -33,9 +28,9 @@ class ShortestPathAlgo():
         '''
         path_gen = PathGenerator()
         edgeTo, _ = self.findShortestPath()
-        paths = path_gen.generatePath(edgeTo, self.start, self.end, self.c_list)
+        paths = path_gen.generatePath(edgeTo, self.start,
+                                      self.end, self.c_list)
         return paths
-
 
     @staticmethod
     def updatePQ(pq, station, new_priority):
@@ -43,8 +38,3 @@ class ShortestPathAlgo():
         pq.remove(prioritizedItem)
         heapq.heappush(pq, PrioritizedItem(new_priority, station))
         return pq
-
-
-
-
-    

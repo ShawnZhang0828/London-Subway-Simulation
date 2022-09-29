@@ -1,7 +1,8 @@
 import pytest
 import sys
 
-path = sys.path[0].strip("\\testcases")
+# path = sys.path[0].strip("\\testcases")
+path = sys.path[0]
 
 sys.path.append(path + '\\subway\\utils')
 sys.path.append(path + '\\subway\\shortestPath')

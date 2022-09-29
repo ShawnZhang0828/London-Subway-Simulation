@@ -16,4 +16,5 @@ class Line():
         '''
             Print all information of a line
         '''
-        print(f'id: {self.id} - name: {self.name} - color: {self.color} - stripe: {self.stripe}')
+        str1 = f'id: {self.id} - name: {self.name} - color: {self.color}'
+        print(f'{str1} - stripe: {self.stripe}')
