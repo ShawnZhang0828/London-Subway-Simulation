@@ -1,9 +1,8 @@
-import pytest
 import sys
 
-# path = sys.path[0].strip("\\testcases")
+# The following lines can result in a Flake8 error, but
+# they are necessary for the code to run successfully
 path = sys.path[0]
-
 sys.path.append(path + '\\subway\\utils')
 sys.path.append(path + '\\subway\\shortestPath')
 sys.path.append(path + '\\subway\\structures')
@@ -16,14 +15,18 @@ from TSPAlgo import TSP
 from island import Island
 
 
-file_path_1 = ['_dataset\\london.stations - Test.csv', '_dataset\\london.lines - Test.csv', '_dataset\\london.connections - Test.csv']
+file_path_1 = ['_dataset\\london.stations - Test.csv',
+               '_dataset\\london.lines - Test.csv',
+               '_dataset\\london.connections - Test.csv']
 data_loader_1 = DataLoader(file_path_1[0], file_path_1[1], file_path_1[2])
 stations_1 = data_loader_1.loadStation()
 lines_1 = data_loader_1.loadLine()
 connections_1 = data_loader_1.loadConnections(stations_1, lines_1)
 adjList_1 = AdjList(connections_1)
 
-file_path_2 = ['_dataset\\london.stations - Island.csv', '_dataset\\london.lines - Island.csv', '_dataset\\london.connections - Island.csv']
+file_path_2 = ['_dataset\\london.stations - Island.csv',
+               '_dataset\\london.lines - Island.csv',
+               '_dataset\\london.connections - Island.csv']
 data_loader_2 = DataLoader(file_path_2[0], file_path_2[1], file_path_2[2])
 stations_2 = data_loader_2.loadStation()
 lines_2 = data_loader_2.loadLine()
@@ -66,11 +69,10 @@ def test_island_connection():
     island = Island(stations_2, connections_2, adjList_2)
     island.separateIslandInZone()
     final_path = island.findIslandInZone(stations_2[1], stations_2[3])
-    
+
     intermediate_stations = set()
     for c in final_path.connections:
         intermediate_stations.add(c.s1.id)
         intermediate_stations.add(c.s2.id)
 
     assert intermediate_stations == {3, 1, 4}
-    

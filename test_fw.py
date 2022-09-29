@@ -1,9 +1,8 @@
-import pytest
 import sys
 
-# path = sys.path[0].strip("\\testcases")
+# The following lines can result in a Flake8 error, but
+# they are necessary for the code to run successfully
 path = sys.path[0]
-
 sys.path.append(path + '\\subway\\utils')
 sys.path.append(path + '\\subway\\shortestPath')
 sys.path.append(path + '\\subway\\structures')
@@ -18,8 +17,12 @@ from aStar import Astar
 
 '''Two test graphs: London Subway as case 1 and Self-defined graph as case 2'''
 
-file_paths_1 = ['_dataset\\london.stations.csv', '_dataset\\london.lines.csv', '_dataset\\london.connections.csv']
-file_paths_2 = ['_dataset\\london.stations - Test.csv', '_dataset\\london.lines - Test.csv', '_dataset\\london.connections - Test.csv']
+file_paths_1 = ['_dataset\\london.stations.csv',
+                '_dataset\\london.lines.csv',
+                '_dataset\\london.connections.csv']
+file_paths_2 = ['_dataset\\london.stations - Test.csv',
+                '_dataset\\london.lines - Test.csv',
+                '_dataset\\london.connections - Test.csv']
 
 data_loader_1 = DataLoader(file_paths_1[0], file_paths_1[1], file_paths_1[2])
 data_loader_2 = DataLoader(file_paths_2[0], file_paths_2[1], file_paths_2[2])
@@ -34,19 +37,30 @@ lines_2 = data_loader_2.loadLine()
 connections_2 = data_loader_2.loadConnections(stations_2, lines_2)
 adjList_2 = AdjList(connections_2)
 
+
 def test_loadData():
     '''Using self-defined test cases'''
 
-    # global stations_1, lines_1, connections_1
-    
     data_loader = DataLoader(file_paths_2[0], file_paths_2[1], file_paths_2[2])
 
     stations = data_loader.loadStation()
     lines = data_loader.loadLine()
     connections = data_loader.loadConnections(stations, lines)
-    assert [station.lat for station in stations] == [51.5028, 51.5143, 51.5154, 51.5107, 51.5407, 51.5322, 51.5653, 51.6164, 51.4905]
-    assert [line.name for line in lines] == ["Bakerloo Line", "Circle Line", "Hammersmith & City Line", "Jubilee Line", "Victoria Line"]
-    assert [connection.time for connection in connections] == [3, 2, 3, 1, 1, 3, 1, 3, 2, 4, 1, 2, 1, 4, 3, 2, 3, 6, 4, 3]
+    assert [station.lat for station in stations] == [51.5028, 51.5143,
+                                                     51.5154, 51.5107,
+                                                     51.5407, 51.5322,
+                                                     51.5653, 51.6164,
+                                                     51.4905]
+    assert [line.name for line in lines] == ["Bakerloo Line",
+                                             "Circle Line",
+                                             "Hammersmith & City Line",
+                                             "Jubilee Line",
+                                             "Victoria Line"]
+    assert [connection.time for connection in connections] == [3, 2, 3, 1,
+                                                               1, 3, 1, 3,
+                                                               2, 4, 1, 2,
+                                                               1, 4, 3, 2,
+                                                               3, 6, 4, 3]
 
 
 def test_metrics():
@@ -62,8 +76,6 @@ def test_metrics():
 
 
 def test_dijkstra_2():
-    #global connections_2, stations_2, lines_2
-    # adjList = AdjList(connections_2)
     start = stations_2[3]
     end = stations_2[7]
 
@@ -71,8 +83,6 @@ def test_dijkstra_2():
     path_gen = PathGenerator()
     edgeTo, _ = dijkstra_algo.findShortestPath()
     _ = path_gen.generatePath(edgeTo, start, end, connections_2)
-
-    # paths = dijkstra_algo.runAlgorithm()
 
     stations_in_path = set()
     for c in path_gen.pickTopInitinerary().connections:
@@ -83,14 +93,10 @@ def test_dijkstra_2():
 
 
 def test_astar_2():
-    #global connections_2, stations_2, lines_2
-    #adjList = AdjList(connections_2)
     start = stations_2[3]
     end = stations_2[7]
 
     astar_algo = Astar(adjList_2, stations_2, connections_2, start, end)
-    #path_gen = PathGenerator()
-    #edgeTo, _ = astar_algo.findShortestPath()
 
     paths = astar_algo.runAlgorithm()
 
@@ -104,8 +110,6 @@ def test_astar_2():
 
 
 def test_dijkstra_1():
-    #global connections_1, stations_1, lines_1
-    #adjList = AdjList(connections_1)
     start = stations_1[171]
     end = stations_1[219]
 
@@ -123,8 +127,6 @@ def test_dijkstra_1():
 
 
 def test_astar_1():
-    #global connections_1, stations_1, lines_1
-    #adjList = AdjList(connections_1)
     start = stations_1[171]
     end = stations_1[219]
 
@@ -138,17 +140,3 @@ def test_astar_1():
         stations_in_path.add(c.s2.id)
 
     assert stations_in_path == {197, 151, 60, 126, 48, 250}
-
-
-def main():
-    pass
-
-
-if __name__ == "__main__":
-    main()
-
-
-'''
-    
-
-'''
