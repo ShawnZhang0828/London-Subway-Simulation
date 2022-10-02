@@ -1,18 +1,20 @@
-import sys
-
-# The following lines can result in a Flake8 error, but
-# they are necessary for the code to run successfully
-path = sys.path[0]
-sys.path.append(path + '\\subway\\utils')
-sys.path.append(path + '\\subway\\shortestPath')
-sys.path.append(path + '\\subway\\structures')
-sys.path.append(path + '\\subway\\island')
-sys.path.append(path + '\\subway\\patrolPlanning')
-
-from adjList import AdjList
-from dataLoader import DataLoader
-from TSPAlgo import TSP
-from island import Island
+try:
+    from adjList import AdjList
+    from dataLoader import DataLoader
+    from TSPAlgo import TSP
+    from island import Island
+except ModuleNotFoundError:
+    import sys
+    path = sys.path[0]
+    sys.path.append(path + '\\subway\\utils')
+    sys.path.append(path + '\\subway\\shortestPath')
+    sys.path.append(path + '\\subway\\structures')
+    sys.path.append(path + '\\subway\\island')
+    sys.path.append(path + '\\subway\\patrolPlanning')
+    from adjList import AdjList
+    from dataLoader import DataLoader
+    from TSPAlgo import TSP
+    from island import Island
 
 
 file_path_1 = ['_dataset\\london.stations - Test.csv',

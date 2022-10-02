@@ -2,19 +2,22 @@ import random
 import math
 import time
 import sys
-
-# The following three lines can result in a Flake8 error, but
-# they are necessary for the code to run successfully
-path = sys.path[0]
-sys.path.append(path + '\\subway\\shortestPath')
-sys.path.append(path + '\\subway\\structures')
-
 import matplotlib.pyplot as plt
-from subway.shortestPath.adjList import AdjList
-from subway.shortestPath.dijkstra import Dijkstra
-from subway.shortestPath.aStar import Astar
-from subway.shortestPath.pathGenerator import PathGenerator
-from subway.utils.dataLoader import DataLoader
+try:
+    from subway.shortestPath.adjList import AdjList
+    from subway.shortestPath.dijkstra import Dijkstra
+    from subway.shortestPath.aStar import Astar
+    from subway.shortestPath.pathGenerator import PathGenerator
+    from subway.utils.dataLoader import DataLoader
+except ModuleNotFoundError:
+    path = sys.path[0]
+    sys.path.append(path + '\\subway\\shortestPath')
+    sys.path.append(path + '\\subway\\structures')
+    from subway.shortestPath.adjList import AdjList
+    from subway.shortestPath.dijkstra import Dijkstra
+    from subway.shortestPath.aStar import Astar
+    from subway.shortestPath.pathGenerator import PathGenerator
+    from subway.utils.dataLoader import DataLoader
 
 
 def dijkstra(stations, connections, start, end):
