@@ -1,5 +1,5 @@
 import heapq
-from prioritizedItem import PrioritizedItem
+from PrioritizedItem import PrioritizedItem
 from pathGenerator import PathGenerator
 
 

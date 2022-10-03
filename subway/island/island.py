@@ -1,4 +1,4 @@
-from aStar import Astar
+from AStar import Astar
 import sys
 
 

@@ -1,7 +1,7 @@
 import heapq
 import sys
 from shortestPathAlgo import ShortestPathAlgo
-from prioritizedItem import PrioritizedItem
+from PrioritizedItem import PrioritizedItem
 
 
 class Dijkstra(ShortestPathAlgo):

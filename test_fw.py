@@ -6,7 +6,7 @@ try:
     from adjList import AdjList
     from pathGenerator import PathGenerator
     from dijkstra import Dijkstra
-    from aStar import Astar
+    from AStar import Astar
 except ModuleNotFoundError:
     import sys
     path = sys.path[0]
@@ -18,7 +18,7 @@ except ModuleNotFoundError:
     from adjList import AdjList
     from pathGenerator import PathGenerator
     from dijkstra import Dijkstra
-    from aStar import Astar
+    from AStar import Astar
 
 
 '''Two test graphs: London Subway as case 1 and Self-defined graph as case 2'''
