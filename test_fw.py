@@ -10,9 +10,9 @@ try:
 except ModuleNotFoundError:
     import sys
     path = sys.path[0]
-    sys.path.append(path + '\\subway\\utils')
-    sys.path.append(path + '\\subway\\shortestPath')
-    sys.path.append(path + '\\subway\\structures')
+    sys.path.append(path + '/subway/utils')
+    sys.path.append(path + '/subway/shortestPath')
+    sys.path.append(path + '/subway/structures')
     from dataLoader import DataLoader
     from metricsHandler import MetricsHandler
     from adjList import AdjList
@@ -23,12 +23,12 @@ except ModuleNotFoundError:
 
 '''Two test graphs: London Subway as case 1 and Self-defined graph as case 2'''
 
-file_paths_1 = ['_dataset\\london.stations.csv',
-                '_dataset\\london.lines.csv',
-                '_dataset\\london.connections.csv']
-file_paths_2 = ['_dataset\\london.stations - Test.csv',
-                '_dataset\\london.lines - Test.csv',
-                '_dataset\\london.connections - Test.csv']
+file_paths_1 = ['_dataset/london.stations.csv',
+                '_dataset/london.lines.csv',
+                '_dataset/london.connections.csv']
+file_paths_2 = ['_dataset/london.stations - Test.csv',
+                '_dataset/london.lines - Test.csv',
+                '_dataset/london.connections - Test.csv']
 
 data_loader_1 = DataLoader(file_paths_1[0], file_paths_1[1], file_paths_1[2])
 data_loader_2 = DataLoader(file_paths_2[0], file_paths_2[1], file_paths_2[2])

@@ -11,29 +11,29 @@ try:
 except ModuleNotFoundError:
     import sys
     path = sys.path[0]
-    sys.path.append(path + '\\subway\\utils')
-    sys.path.append(path + '\\subway\\shortestPath')
-    sys.path.append(path + '\\subway\\structures')
-    sys.path.append(path + '\\subway\\island')
-    sys.path.append(path + '\\subway\\patrolPlanning')
+    sys.path.append(path + '/subway/utils')
+    sys.path.append(path + '/subway/shortestPath')
+    sys.path.append(path + '/subway/structures')
+    sys.path.append(path + '/subway/island')
+    sys.path.append(path + '/subway/patrolPlanning')
     from adjList import AdjList
     from dataLoader import DataLoader
     from TSPAlgo import TSP
     from island import Island
 
 # Initialize data needed for testing
-file_path_1 = ['_dataset\\london.stations - Test.csv',
-               '_dataset\\london.lines - Test.csv',
-               '_dataset\\london.connections - Test.csv']
+file_path_1 = ['_dataset/london.stations - Test.csv',
+               '_dataset/london.lines - Test.csv',
+               '_dataset/london.connections - Test.csv']
 data_loader_1 = DataLoader(file_path_1[0], file_path_1[1], file_path_1[2])
 stations_1 = data_loader_1.loadStation()
 lines_1 = data_loader_1.loadLine()
 connections_1 = data_loader_1.loadConnections(stations_1, lines_1)
 adjList_1 = AdjList(connections_1)
 
-file_path_2 = ['_dataset\\london.stations - Island.csv',
-               '_dataset\\london.lines - Island.csv',
-               '_dataset\\london.connections - Island.csv']
+file_path_2 = ['_dataset/london.stations - Island.csv',
+               '_dataset/london.lines - Island.csv',
+               '_dataset/london.connections - Island.csv']
 data_loader_2 = DataLoader(file_path_2[0], file_path_2[1], file_path_2[2])
 stations_2 = data_loader_2.loadStation()
 lines_2 = data_loader_2.loadLine()

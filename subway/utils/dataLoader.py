@@ -14,9 +14,9 @@ class DataLoader():
         '''
             Initialize a class instance
         '''
-        self.station_path = sys.path[0] + "\\" + station_path
-        self.line_path = sys.path[0] + "\\" + line_path
-        self.connection_path = sys.path[0] + "\\" + connection_path
+        self.station_path = sys.path[0] + "/" + station_path
+        self.line_path = sys.path[0] + "/" + line_path
+        self.connection_path = sys.path[0] + "/" + connection_path
 
     def loadStation(self):
         '''
