@@ -1,3 +1,5 @@
+# Test first week features
+#   - Dataloader, metricsComputer, Dijkstra, A*
 try:
     from dataLoader import DataLoader
     from metricsHandler import MetricsHandler
@@ -80,6 +82,9 @@ def test_metrics():
 
 
 def test_dijkstra_2():
+    '''
+        Test for Dijkstra using a self-defined graph
+    '''
     start = stations_2[3]
     end = stations_2[7]
 
@@ -93,10 +98,14 @@ def test_dijkstra_2():
         stations_in_path.add(c.s1.id)
         stations_in_path.add(c.s2.id)
 
+    # check if the path includes correct stations
     assert stations_in_path == {4, 3, 1, 8}
 
 
 def test_astar_2():
+    '''
+        Test for A* using a self-defined graph
+    '''
     start = stations_2[3]
     end = stations_2[7]
 
@@ -110,10 +119,14 @@ def test_astar_2():
         stations_in_path.add(c.s1.id)
         stations_in_path.add(c.s2.id)
 
+    # check if the path includes correct stations
     assert stations_in_path == {1, 3, 4, 8}
 
 
 def test_dijkstra_1():
+    '''
+        Test for Dijkstra using the given graph
+    '''
     start = stations_1[171]
     end = stations_1[219]
 
@@ -127,10 +140,14 @@ def test_dijkstra_1():
         stations_in_path.add(c.s1.id)
         stations_in_path.add(c.s2.id)
 
+    # check if the path includes correct stations
     assert stations_in_path == {197, 151, 60, 126, 48, 250}
 
 
 def test_astar_1():
+    '''
+        Test for A* using the given graph
+    '''
     start = stations_1[171]
     end = stations_1[219]
 
@@ -143,4 +160,5 @@ def test_astar_1():
         stations_in_path.add(c.s1.id)
         stations_in_path.add(c.s2.id)
 
+    # check if the path includes correct stations
     assert stations_in_path == {197, 151, 60, 126, 48, 250}
